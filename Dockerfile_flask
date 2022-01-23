@@ -1,0 +1,6 @@
+FROM python:3.8
+COPY ./app.py .
+RUN pip3 install flask
+RUN pip3 install flask_restx
+RUN pip3 install flask_cors
+CMD python3 app.py
