@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h3 id="title"> Title : </h3>
+    <h3 id="director"> Director : </h3>
+    <h3 id="genre"> Genre : </h3>
+    <h3 id="runtime"> Runtime : </h3>
+    <h3 id="rating"> Rating : </h3>
+</body>
+
+</html>
+
+<script>
+    window.onload=function(){
+        var url_string = window.location.href
+        console.log(url_string)
+        var url = new URL(url_string);
+        var id = url.searchParams.get("movie_id");
+        console.log(id);
+        var xhr = new XMLHttpRequest();
+        var tmp={}
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === xhr.DONE) {
+                if (xhr.status === 200 || xhr.status === 201) {
+                    console.log(xhr.response['data']);
+                    document.getElementById('title').innerHTML+=xhr.response['data']['title']
+                    document.getElementById('director').innerHTML+=xhr.response['data']['director']
+                    document.getElementById('genre').innerHTML+=xhr.response['data']['genre']
+                    document.getElementById('runtime').innerHTML+=xhr.response['data']['runtime']
+                    document.getElementById('rating').innerHTML+=xhr.response['data']['rating']
+
+                } else {
+                    console.error(xhr.responseText);
+                }
+            }
+        };
+        xhr.open('GET', 'http://172.30.6.113:31296/ns_movie/movie/'+id);
+        xhr.responseType='json'
+        xhr.send();
+    }
+</script>
